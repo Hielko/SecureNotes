@@ -1,4 +1,4 @@
-namespace LightControl.Models
+namespace SecureNotes.Models
 {
     public class ErrorViewModel
     {

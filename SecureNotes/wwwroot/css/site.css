@@ -1,18 +1,18 @@
-xxxhtml {
-  font-size: 14px;
+html {
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
-xxxhtml {
-  position: relative;
-  min-height: 100%;
+html {
+    position: relative;
+    min-height: 100%;
 }
 
-xxxxbody {
-  margin-bottom: 60px;
+body {
+    margin-bottom: 60px;
 }

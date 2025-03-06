@@ -1,12 +1,9 @@
-﻿
+﻿using Microsoft.AspNetCore.Mvc;
+using SecureNotes.Models;
 using Simple.Encryption;
-using LightControl.Models;
-
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using System.Diagnostics;
 
-namespace LightControl.Controllers
+namespace SecureNotes.Controllers
 {
     public class HomeController : Controller
     {
@@ -45,7 +42,6 @@ namespace LightControl.Controllers
             return View(vm);
         }
 
-
         public string Save([FromBody] TextViewModel vm)
         {
             var file = Path.Combine(_webHostEnvironment.WebRootPath, "Data", vm.Filename);
@@ -54,18 +50,10 @@ namespace LightControl.Controllers
             return "OK";
         }
 
-
-        public IActionResult DoPost(TextViewModel scheduleViewModel)
-        {
-            return RedirectToAction("Index");
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
-
-
 }

@@ -1,4 +1,3 @@
-
 using Simple.Encryption;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddHielkoEncryption(builder.Configuration);
+builder.Services.AddSimpleEncryption(builder.Configuration);
 
 var app = builder.Build();
 

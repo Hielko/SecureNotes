@@ -1,9 +1,9 @@
 ﻿namespace Simple.Encryption
 {
+    using Microsoft.Extensions.Options;
+    using System;
     using System.IO;
     using System.Security.Cryptography;
-    using System;
-    using Microsoft.Extensions.Options;
 
     public class Encryption : IEncryption
     {
@@ -77,7 +77,6 @@
         /// <returns></returns>
         public string? Encrypt(string? plaintext) => Encrypt(plaintext, GetKey());
 
-
         /// <summary>
         /// Decrypt ciphertext met key
         /// </summary>
@@ -138,6 +137,5 @@
                 return aesAlg.IV;
             }
         }
-
     }
 }
