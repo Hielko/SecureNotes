@@ -42,12 +42,23 @@ namespace SecureNotes.Controllers
             return View(vm);
         }
 
-        public string Save([FromBody] TextViewModel vm)
+
+        [Produces("application/json")]
+        public IActionResult Save([FromBody] TextViewModel vm)
         {
-            var file = Path.Combine(_webHostEnvironment.WebRootPath, "Data", vm.Filename);
-            var encr = _encryption?.Encrypt(vm.Text);
-            System.IO.File.WriteAllText(file, encr);
-            return "OK";
+         //   vm.Filename = string.Empty;
+
+            if (!string.IsNullOrEmpty(vm.Filename))
+            {
+                var file = Path.Combine(_webHostEnvironment.WebRootPath, "Data", vm.Filename);
+                var encr = _encryption?.Encrypt(vm.Text);
+                System.IO.File.WriteAllText(file, encr);
+            }
+            else
+            {
+                return BadRequest("Empty filename");
+            }
+            return Ok("Saved");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
