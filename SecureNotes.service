@@ -22,7 +22,6 @@ WantedBy=multi-user.target
 --
 
 systemctl daemon-reload
-
-
- sudo systemctl start SecureNotes.service
- sudo systemctl stop SecureNotes.service
+sudo systemctl enable securenotes.service
+sudo systemctl start SecureNotes.service
+sudo systemctl stop SecureNotes.service

@@ -9,67 +9,64 @@
 </head>
 
 <body>
-     <div id="alert" class="alert alert-warning" role="alert">
-        
-    </div> 
+    <div id="alert" class="alert alert-warning" role="alert">
+        Ready
+    </div>
 
     <div id="summernote"></div>
 
     <script>
         $(document).ready(function() {
-
+            var alert = $('#alert');
             $('#summernote').summernote();
 
-            //var to =0;
-
+            var to = 0;
+            var data;
             var text = '@Model.Text';
             if (text)
                 $('#summernote').summernote('editor.pasteHTML'  ,htmlDecode(text));
 
             $('#summernote').on('summernote.change', function(we, contents, $editable) {
-               
 
-                @{
-                    //
-                }
+               alert.html("Typeing");
+               data =  JSON.stringify({ '@nameof(Model.Filename)': '@Model.Filename', '@nameof(Model.Text)': contents });
 
-                $('#alert').hide();
+               if (to == 0) {
+                    to = setTimeout(function() {
 
-                var data =  JSON.stringify({ '@nameof(Model.Filename)': '@Model.Filename', '@nameof(Model.Text)': contents });
+                        //console.log("TO  "+to + " "+ new Date()) ;
 
-                fetch("Home/Save",{
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: data
-                })
-                .then((response) => response.json())
-                .then((json) => {
-                    console.log("response: "+json);
-                    $('#alert').html("response: "+json);
-                    $('#alert').show();
-                })
-                .catch((error) => {
-                    console.log("Error: "+error);
-                    $('#alert').html("Error: "+error);
-                    $('#alert').show();
-                });
+                        fetch("Home/Save",{
+                            method: "POST",
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: data
+                        })
+                        .then((response) => response.json())
+                        .then((json) => {
+                            console.log("response: "+json);
+                            alert.html("response: "+json);
+                        })
+                        .catch((error) => {
+                            console.log("Error: "+error);
+                            alert.html("Error: "+error);
+                        });
+
+
+                        clearTimeout(to);
+                        to = 0;
+                        console.log("Na cleAR TO  "+to + " "+ new Date()) ;
+                    }, 1500);
+               }
 
              });
-
          });
 
         function htmlDecode(input) {
            var doc = new DOMParser().parseFromString(input, "text/html");
            return doc.documentElement.textContent;
         }
-
-
-
-        function Save(contents) {
-        }
-
 
     </script>
 </body>

@@ -50,13 +50,21 @@ namespace SecureNotes.Controllers
 
             if (!string.IsNullOrEmpty(vm.Filename))
             {
-                var file = Path.Combine(_webHostEnvironment.WebRootPath, "Data", vm.Filename);
-                var encr = _encryption?.Encrypt(vm.Text);
-                System.IO.File.WriteAllText(file, encr);
+                var fileName = Path.Combine(_webHostEnvironment.WebRootPath, "Data", vm.Filename);
+
+                if (System.IO.File.Exists(fileName))
+                {
+                    var backupFile = Path.ChangeExtension(fileName, ".bak");
+                    System.IO.File.Delete(backupFile);
+                    System.IO.File.Copy(fileName, backupFile);
+                }
+                
+                var encryptedText = _encryption?.Encrypt(vm.Text);
+                System.IO.File.WriteAllText(fileName, encryptedText);
             }
             else
             {
-                return BadRequest("Empty filename");
+                return BadRequest($"Empty {nameof(vm.Filename)}");
             }
             return Ok("Saved");
         }
