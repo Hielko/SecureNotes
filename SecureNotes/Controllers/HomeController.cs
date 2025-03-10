@@ -23,7 +23,7 @@ namespace SecureNotes.Controllers
             var vm = new TextViewModel();
 
             var path = Path.Combine(_webHostEnvironment.WebRootPath, "Data");
-            vm.FileNames = Directory.EnumerateFiles(path,"*.txt").ToList();
+            vm.FileNames = Directory.EnumerateFiles(path, "*.txt").Select(x => new FileInfo(x).Name).ToList();
 
             if (string.IsNullOrEmpty(filename))
             {

@@ -13,10 +13,54 @@
         Ready
     </div>
 
-    <div id="summernote"></div>
+
+    <div class="wrapper">
+
+        <!-- Sidebar Holder -->
+        <nav id="sidebar" class="active">
+            <div class="sidebar-header">
+                <h3>Notes</h3>
+            </div>
+
+            <button type="button" id="add" onclick=AddClicked() class="btn btn-info navbar-btn">
+                <i class="glyphicon glyphicon-plus"></i>
+                @* <span>+</span> *@
+            </button>
+
+            <ul class="list-unstyled components">
+                @{
+                    foreach (var itm in Model.FileNames)
+                    {
+                        <li><a href="?Filename=@itm" >@itm</a></li>
+                    }
+                }
+            </ul>
+        </nav>
+
+
+        <div id="content">
+
+            <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                <i class="glyphicon glyphicon-align-left"></i>
+                <span>Toggle Sidebar</span>
+            </button>
+            <div id="summernote"></div>
+
+        </div>
+
+    </div>
+    
 
     <script>
         $(document).ready(function() {
+        //    // $("#sidebar").toggleClass("active");
+
+        //           $("#sidebarCollapse").on("click", function() {
+        //   $("#sidebar").toggleClass("active");
+        //   $(this).toggleClass("active");
+        // });
+
+
             var alert = $('#alert');
             $('#summernote').summernote();
 
@@ -30,35 +74,29 @@
 
                alert.html("Typeing");
                data =  JSON.stringify({ '@nameof(Model.Filename)': '@Model.Filename', '@nameof(Model.Text)': contents });
+               clearTimeout(to);
 
-               if (to == 0) {
-                    to = setTimeout(function() {
+                to = setTimeout(function() {
 
-                        //console.log("TO  "+to + " "+ new Date()) ;
+                    fetch("Home/Save",{
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: data
+                    })
+                    .then((response) => response.json())
+                    .then((json) => {
+                        console.log("response: "+json);
+                        alert.html("response: "+json);
+                    })
+                    .catch((error) => {
+                        console.log("Error: "+error);
+                        alert.html("Error: "+error);
+                    });
 
-                        fetch("Home/Save",{
-                            method: "POST",
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: data
-                        })
-                        .then((response) => response.json())
-                        .then((json) => {
-                            console.log("response: "+json);
-                            alert.html("response: "+json);
-                        })
-                        .catch((error) => {
-                            console.log("Error: "+error);
-                            alert.html("Error: "+error);
-                        });
+                }, 1500);
 
-
-                        clearTimeout(to);
-                        to = 0;
-                        console.log("Na cleAR TO  "+to + " "+ new Date()) ;
-                    }, 1500);
-               }
 
              });
          });
@@ -66,6 +104,15 @@
         function htmlDecode(input) {
            var doc = new DOMParser().parseFromString(input, "text/html");
            return doc.documentElement.textContent;
+        }
+
+                function AddClicked(el) {
+
+            console.log("el"+el)
+        }
+        function fileClicked(el) {
+
+            console.log("el"+el)
         }
 
     </script>
