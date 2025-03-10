@@ -22,13 +22,16 @@ namespace SecureNotes.Controllers
         {
             var vm = new TextViewModel();
 
+            var path = Path.Combine(_webHostEnvironment.WebRootPath, "Data");
+            vm.FileNames = Directory.EnumerateFiles(path,"*.txt").ToList();
+
             if (string.IsNullOrEmpty(filename))
             {
                 filename = "TextFile.txt";
             }
             vm.Filename = filename;
 
-            var file = Path.Combine(_webHostEnvironment.WebRootPath, "Data", filename);
+            var file = Path.Combine(path, filename);
             if (System.IO.File.Exists(file))
             {
                 var text = System.IO.File.ReadAllText(file);
