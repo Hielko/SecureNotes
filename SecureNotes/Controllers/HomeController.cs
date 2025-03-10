@@ -27,8 +27,10 @@ namespace SecureNotes.Controllers
 
             if (string.IsNullOrEmpty(filename))
             {
-                filename = "TextFile.txt";
+                filename = "TextFile";
             }
+
+            filename += ".txt";
             vm.Filename = filename;
 
             var file = Path.Combine(path, filename);

@@ -20,11 +20,11 @@
                     <h4 class="modal-title" id="myModalLabel">Modal title</h4>
                 </div>
                 <div class="modal-body">
-                    <input type="text" id="new" class="form-control" placeholder="New file.txt">
+                    <input type="text" id="new" class="form-control" placeholder="New file" maxlength="20" pattern="[a-zA-Z0-9]">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" onclick=AddClicked(this); class="btn btn-primary">Create</button>
+                    <button type="button" onclick=CreateClicked(this); class="btn btn-primary">Create</button>
                 </div>
             </div>
         </div>
@@ -59,12 +59,11 @@
             </ul>
         </nav>
 
-
         <div id="content">
 
             <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-                <i class="glyphicon glyphicon-align-left"></i>
-                <span>Toggle Sidebar</span>
+                <i class="glyphicon glyphicon-menu-hamburger"></i>
+                @* <span>Sidebar</span> *@
             </button>
             <div id="summernote"></div>
 
@@ -125,9 +124,9 @@
            return doc.documentElement.textContent;
         }
 
-        function AddClicked(el) {
+        function CreateClicked(el) {
              var val = document.getElementById("new").value;
-             window.location = window.location.href+"?filename="+val;
+             window.location = window.location.origin+"?filename="+val;
         }
 
     </script>
