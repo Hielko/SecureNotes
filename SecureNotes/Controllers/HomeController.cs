@@ -29,8 +29,12 @@ namespace SecureNotes.Controllers
             {
                 filename = "TextFile";
             }
-
-            filename += ".txt";
+            var fi = new FileInfo(filename);
+            
+            if (!string.Equals(fi.Extension, ".txt", StringComparison.CurrentCultureIgnoreCase))
+            {
+                filename += ".txt";
+            }
             vm.Filename = filename;
 
             var file = Path.Combine(path, filename);
