@@ -362,3 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /LightControl/wwwroot/Schedule.json
+/SecureNotes/wwwroot/Data/TextFile.bak
+/SecureNotes/wwwroot/Data/TextFile4.bak
+/SecureNotes/wwwroot/Data/TextFile4.txt
