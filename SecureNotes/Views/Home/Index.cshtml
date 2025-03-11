@@ -29,49 +29,59 @@
             </div>
         </div>
     </div>
-     
-    <div class="wrapper">
 
-        <!-- Sidebar Holder -->
-        <nav id="sidebar" class="active">
-            <div class="sidebar-header">
-                <h3>Notes</h3>
+    <!-- Modal -->
+    <div class="modal fade" id="selectNotesModal" tabindex="-1" role="dialog" aria-labelledby="selectNotesModalTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="selectNotesModalTitle">Notes</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <ul class="nav nav-pills nav-stacked">
+                        @{
+                            foreach (var itm in Model.FileNames)
+                            {
+                                string active = itm.Equals(Model.Filename) ? "class=active" : "";
+                                <li role="presentation" @active> <a href="?Filename=@itm">@itm</a></li>
+                            }
+                        }
+                    </ul>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                    <button type="button" id="add" data-toggle="modal" data-dismiss="modal" data-target="#myModal" class="btn btn-secondary">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </button>
+
+                </div>
             </div>
-
-            <button type="button" id="add" data-toggle="modal" data-target="#myModal"  class="btn btn-info navbar-btn">
-                <i class="glyphicon glyphicon-plus"></i>
-                @* <span>+</span> *@
-            </button>
-
-            <ul class="list-unstyled components">
-                @{
-                    foreach (var itm in Model.FileNames)
-                    {
-                        <li><a href="?Filename=@itm">@itm</a></li>
-                    }
-                }
-            </ul>
-        </nav>
-
-        <div id="content">
-
-          <div id="alert" class="alert alert-warning" role="alert" style="float: right">
-            Ready
-          </div> 
-
-          <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-                <i class="glyphicon glyphicon-menu-hamburger"></i>
-                @* <span>Sidebar</span> *@
-          </button>
-
-            <div class="container" >
-            @*     <textarea style="width:100%">vvvvvvvv</textarea> *@               
-                <div  id="summernote"></div> 
-            </div>
-
         </div>
     </div>
+       
+       
 
+    <div id="alert" class="alert alert-warning" role="alert" style="float: right">
+      Ready
+    </div> 
+
+@*     <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+        <i class="glyphicon glyphicon-menu-hamburger"></i>
+    </button> *@
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectNotesModal">
+        Select Note
+    </button>
+            
+    <div id="summernote"></div> 
 
     <script>
         $(document).ready(function() {
@@ -85,6 +95,7 @@
 
             var to = 0;
             var data;
+
             var text = '@Model.Text';
             if (text)
                 $('#summernote').summernote('editor.pasteHTML'  ,htmlDecode(text));
