@@ -11,7 +11,7 @@
 
 <body>
 
-    <!-- Modal -->
+    <!-- Modal create -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal select notes -->
     <div class="modal fade" id="selectNotesModal" tabindex="-1" role="dialog" aria-labelledby="selectNotesModalTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -42,7 +42,6 @@
                 </div>
 
                 <div class="modal-body">
-
                     <ul class="nav nav-pills nav-stacked">
                         @{
                             foreach (var itm in Model.FileNames)
@@ -52,36 +51,27 @@
                             }
                         }
                     </ul>
-
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
                     <button type="button" id="add" data-toggle="modal" data-dismiss="modal" data-target="#myModal" class="btn btn-secondary">
                         <i class="glyphicon glyphicon-plus"></i>
                     </button>
-
                 </div>
             </div>
         </div>
     </div>
-       
-       
 
     <div id="alert" class="alert alert-warning" role="alert" style="float: right">
-      Ready
-    </div> 
-
-@*     <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-        <i class="glyphicon glyphicon-menu-hamburger"></i>
-    </button> *@
+        Ready
+    </div>
 
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectNotesModal">
         Select Note
     </button>
-            
-    <div id="summernote"></div> 
+
+    <div id="summernote"></div>
 
     <script>
         $(document).ready(function() {
@@ -106,8 +96,7 @@
                data =  JSON.stringify({ '@nameof(Model.Filename)': '@Model.Filename', '@nameof(Model.Text)': contents });
                clearTimeout(to);
 
-                to = setTimeout(function() {
-
+               to = setTimeout(function() {
                     fetch("Home/Save",{
                         method: "POST",
                         headers: {
@@ -124,10 +113,7 @@
                         console.log("Error: "+error);
                         alert.html("Error: "+error);
                     });
-
                 }, 1500);
-
-
              });
          });
 
