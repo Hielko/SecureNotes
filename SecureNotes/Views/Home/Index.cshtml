@@ -63,15 +63,18 @@
         </div>
     </div>
 
-    <div id="alert" class="alert alert-warning" role="alert" style="float: right">
-        Ready
+    <div class="container-fluid">
+
+        <div id="alert" class="alert alert-info" role="alert" style="float: right">
+            Ready
+        </div>
+
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectNotesModal">
+            Select Note
+        </button>
+
+        <div id="summernote"></div>
     </div>
-
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectNotesModal">
-        Select Note
-    </button>
-
-    <div id="summernote"></div>
 
     <script>
         $(document).ready(function() {
