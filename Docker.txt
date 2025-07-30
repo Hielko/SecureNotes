@@ -1,0 +1,6 @@
+ docker buildx build --platform linux/arm64 -t securenotes -f Dockerfile .
+ docker save securenotes:latest -o X.latest.tar.gz
+ # .. transfer ...
+ docker rm sn1
+ docker load < X.latest.tar.gz
+ docker run -d --platform linux/arm64 -p 481:4004 --name sn4 securenotes:latest

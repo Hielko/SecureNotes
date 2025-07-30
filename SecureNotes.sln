@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deploy", "Deploy", "{8A98D55B-9594-4055-8F95-5BEAB1EEFFF5}"
 	ProjectSection(SolutionItems) = preProject
 		SecureNotes.service = SecureNotes.service
+		Docker.txt = Docker.txt
 	EndProjectSection
 EndProject
 Global

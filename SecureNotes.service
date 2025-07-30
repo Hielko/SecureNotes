@@ -28,30 +28,3 @@ sudo systemctl stop securenotes.service
 
 
 
-#docker:
-#-------------------
-#build:
-docker buildx build --platform linux/amd64/v8 -t securenotes -f Dockerfile .
-#run
-docker run -d --platform linux/amd64 -p 81:4004 --name bla securenotes:latest
-docker run -d --platform linux/amd64 -p 810:4004 --name sn1 securenotes:latest
-
-docker save myimage:latest | gzip > securenotes:latest.tar.gz
-
-docker save -o securenotes:latest.tar
-
--platform linux/arm64/v8
-
-
-docker load < X.latest.tar.gz
-
-
-
-
-------------
- docker buildx build --platform linux/amd64 -t securenotes -f Dockerfile .
- docker save securenotes:latest -o X.latest.tar.gz
- # .. transfer ...
- docker rm sn1
- docker load < X.latest.tar.gz
- docker run -d --platform linux/amd64 -p 81:4004 --name securenotes securenotes:latest
