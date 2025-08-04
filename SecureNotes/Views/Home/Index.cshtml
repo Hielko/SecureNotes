@@ -6,21 +6,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Notes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
+
 
 
 <body>
 
     <!-- Modal create -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="ModalCreate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                    <h4 class="modal-title" id="myModalLabel">Create note</h4>
                 </div>
                 <div class="modal-body">
-                    <input type="text" id="new" class="form-control" placeholder="New file" maxlength="20" pattern="[a-zA-Z0-9]">
+                    <input type="text" id="newbutton" class="form-control" placeholder="New file" maxlength="20" pattern="[a-zA-Z0-9]">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -30,61 +33,78 @@
         </div>
     </div>
 
-    <!-- Modal select notes -->
-    <div class="modal fade" id="selectNotesModal" tabindex="-1" role="dialog" aria-labelledby="selectNotesModalTitle" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="selectNotesModalTitle">Notes</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
 
-                <div class="modal-body">
-                    <ul class="nav nav-pills nav-stacked">
-                        @{
-                            foreach (var itm in Model.FileNames)
-                            {
-                                string active = itm.Equals(Model.Filename) ? "class=active" : "";
-                                <li role="presentation" @active> <a href="?Filename=@itm">@itm</a></li>
-                            }
-                        }
-                    </ul>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" id="add" data-toggle="modal" data-dismiss="modal" data-target="#myModal" class="btn btn-secondary">
-                        <i class="glyphicon glyphicon-plus"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container-fluid">
-
-        <div id="alert" class="alert alert-info" role="alert" style="float: right">
+    <header class="header">
+        <div id="alert" style="height:50px;" class="alert alert-info" role="alert">
             Ready
         </div>
+    </header>
 
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectNotesModal">
-            Select Note
-        </button>
 
-        <div id="summernote"></div>
+
+    <!-- Main Content -->
+    <div id="summernote"></div>
+
+    <!-- Toggle Button -->
+    <button class="btn btn-light toggle-btn shadow-sm" onclick="toggleSidebar()">
+        <i class="bi bi-list fs-5"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header p-3">
+            <div class="d-flex align-items-center justify-content-between">
+
+                <ul class="nav nav-pills nav-stacked">
+                    @{
+                        foreach (var itm in Model.FileNames)
+                        {
+                            string active = itm.Equals(Model.Filename) ? "class=active" : "";
+                            <li role="presentation" @active> <a href="?Filename=@itm">@itm</a></li>
+                        }
+                    }
+                </ul>
+
+            </div>
+        </div>
+
+        <!-- Add button -->
+        <div class="p-3 border-bottom ">
+            <button type="button"
+                    id="add"
+                    data-toggle="modal"
+                    data-dismiss="modal"
+                    data-target="#ModalCreate"
+                    class="btn btn-secondary">
+                <i class="glyphicon glyphicon-plus"></i>
+            </button>
+
+        </div>
+
     </div>
+
+
 
     <script>
         $(document).ready(function() {
 
-            $('#myModal').on('shown.bs.modal', function () {
-              $('#new').focus()
+            $('#ModalCreate').on('shown.bs.modal', function () {
+              $('#newbutton').focus()
+            });
+
+
+            $(window).on('resize', function() {
+                 AdjustSize();
             });
 
             var alert = $('#alert');
-            $('#summernote').summernote();
+            $('#summernote').summernote({
+                placeholder: '',
+                tabsize: 2,
+                height: 520,
+                minHeight: null, // set minimum height of editor
+                maxHeight: null, // set maximum height of editor
+            });
 
             var to = 0;
             var data;
@@ -118,16 +138,34 @@
                     });
                 }, 1500);
              });
+
+             AdjustSize();
          });
 
+
+        function AdjustSize() {
+             let h =window.innerHeight;
+             console.log("Height: "+h);
+             let hh = $(".header").height();
+             console.log(h-hh);
+             $('div.note-editable').height((h-hh) - 100);
+        }
+
         function htmlDecode(input) {
-           var doc = new DOMParser().parseFromString(input, "text/html");
+           let doc = new DOMParser().parseFromString(input, "text/html");
            return doc.documentElement.textContent;
         }
 
         function CreateClicked(el) {
-             var val = document.getElementById("new").value;
+             let val = document.getElementById("newbutton").value;
              window.location = window.location.origin+"?filename="+val;
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const toggleBtn = document.querySelector('.toggle-btn');
+            sidebar.classList.toggle('collapsed');
+            toggleBtn.classList.toggle('collapsed');
         }
 
     </script>
