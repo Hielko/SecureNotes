@@ -11,11 +11,9 @@
 </head>
 
 
-
 <body>
-
     <!-- Modal create -->
-    <div class="modal fade" id="ModalCreate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -27,20 +25,17 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" onclick=CreateClicked(this); class="btn btn-primary">Create</button>
+                    <button type="button" onclick=createClicked(this); class="btn btn-primary">Create</button>
                 </div>
             </div>
         </div>
     </div>
-
 
     <header class="header">
         <div id="alert" style="height:50px;" class="alert alert-info" role="alert">
             Ready
         </div>
     </header>
-
-
 
     <!-- Main Content -->
     <div id="summernote"></div>
@@ -54,7 +49,6 @@
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header p-3">
             <div class="d-flex align-items-center justify-content-between">
-
                 <ul class="nav nav-pills nav-stacked">
                     @{
                         foreach (var itm in Model.FileNames)
@@ -64,37 +58,35 @@
                         }
                     }
                 </ul>
-
             </div>
         </div>
 
+        <hr />
+
         <!-- Add button -->
-        <div class="p-3 border-bottom ">
+        <div class="p-3 border-bottom">
             <button type="button"
                     id="add"
                     data-toggle="modal"
                     data-dismiss="modal"
-                    data-target="#ModalCreate"
-                    class="btn btn-secondary">
+                    data-target="#modalCreate"
+                    class="btn btn-secondary ">
                 <i class="glyphicon glyphicon-plus"></i>
             </button>
-
         </div>
-
     </div>
-
 
 
     <script>
         $(document).ready(function() {
 
-            $('#ModalCreate').on('shown.bs.modal', function () {
+            $('#modalCreate').on('shown.bs.modal', function () {
               $('#newbutton').focus()
             });
 
 
             $(window).on('resize', function() {
-                 AdjustSize();
+                 adjustSize();
             });
 
             var alert = $('#alert');
@@ -139,15 +131,16 @@
                 }, 1500);
              });
 
-             AdjustSize();
+             adjustSize();
          });
 
 
-        function AdjustSize() {
-             let h =window.innerHeight;
+        function adjustSize() {
+             let h = window.innerHeight;
              console.log("Height: "+h);
              let hh = $(".header").height();
              console.log(h-hh);
+             // 100.. buttonbar?
              $('div.note-editable').height((h-hh) - 100);
         }
 
@@ -156,7 +149,7 @@
            return doc.documentElement.textContent;
         }
 
-        function CreateClicked(el) {
+        function createClicked(el) {
              let val = document.getElementById("newbutton").value;
              window.location = window.location.origin+"?filename="+val;
         }

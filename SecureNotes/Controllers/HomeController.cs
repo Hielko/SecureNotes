@@ -23,14 +23,18 @@ namespace SecureNotes.Controllers
             var vm = new TextViewModel();
 
             var path = Path.Combine(_webHostEnvironment.WebRootPath, "Data");
-            vm.FileNames = Directory.EnumerateFiles(path, "*.txt").Select(x => new FileInfo(x).Name).ToList();
+
+            vm.FileNames = Directory.EnumerateFiles(path, "*.txt")
+                                     .Select(x => new FileInfo(x))
+                                     .OrderByDescending(x => x.LastWriteTimeUtc)
+                                     .Select(y => y.Name).ToList();
 
             if (string.IsNullOrEmpty(filename))
             {
                 filename = "TextFile";
             }
             var fi = new FileInfo(filename);
-            
+
             if (!string.Equals(fi.Extension, ".txt", StringComparison.CurrentCultureIgnoreCase))
             {
                 filename += ".txt";
@@ -55,7 +59,7 @@ namespace SecureNotes.Controllers
         [Produces("application/json")]
         public IActionResult Save([FromBody] TextViewModel vm)
         {
-         //   vm.Filename = string.Empty;
+            //   vm.Filename = string.Empty;
 
             if (!string.IsNullOrEmpty(vm.Filename))
             {
@@ -67,7 +71,7 @@ namespace SecureNotes.Controllers
                     System.IO.File.Delete(backupFile);
                     System.IO.File.Copy(fileName, backupFile);
                 }
-                
+
                 var encryptedText = _encryption?.Encrypt(vm.Text);
                 System.IO.File.WriteAllText(fileName, encryptedText);
             }
