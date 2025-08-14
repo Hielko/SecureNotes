@@ -1,1 +1,2 @@
-A C# web app for entering notes and the content is encrypted.
+A C# web app for entering notes in a file and the content is encrypted stored.
+
