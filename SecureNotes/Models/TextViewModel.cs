@@ -5,7 +5,6 @@
         public string? Text { get; set; }
         public string? Filename { get; set; }
 
-        public List<string> FileNames { get; set; } = new();
-
+        public List<string> Filenames { get; set; } = new();
     }
 }

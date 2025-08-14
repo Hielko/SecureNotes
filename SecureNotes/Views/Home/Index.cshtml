@@ -51,7 +51,7 @@
             <div class="d-flex align-items-center justify-content-between">
                 <ul class="nav nav-pills nav-stacked">
                     @{
-                        foreach (var itm in Model.FileNames)
+                        foreach (var itm in Model.Filenames)
                         {
                             string active = itm.Equals(Model.Filename) ? "class=active" : "";
                             <li role="presentation" @active> <a href="?Filename=@itm">@itm</a></li>

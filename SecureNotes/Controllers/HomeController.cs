@@ -24,7 +24,7 @@ namespace SecureNotes.Controllers
 
             var path = Path.Combine(_webHostEnvironment.WebRootPath, "Data");
 
-            vm.FileNames = Directory.EnumerateFiles(path, "*.txt")
+            vm.Filenames = Directory.EnumerateFiles(path, "*.txt")
                                      .Select(x => new FileInfo(x))
                                      .OrderByDescending(x => x.LastWriteTimeUtc)
                                      .Select(y => y.Name).ToList();
